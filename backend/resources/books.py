@@ -38,3 +38,11 @@ class UserFavoritesResource(Resource):
         db.session.add(new_favorite)
         db.session.commit()
         return review_schema.dump(new_favorite), 201
+    
+class GetBookInformation(Resource):
+
+    def get(self,book_id):
+        reviews = Review.get(book_id,[])
+        
+
+         
