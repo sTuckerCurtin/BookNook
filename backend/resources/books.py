@@ -7,7 +7,7 @@ from database.schemas import review_schema, reviews_schema
 from database.schemas import favorite_schema, favorites_schema
 
 
-class AllReviewResource(Resource):
+class UserReviewResource(Resource):
     @jwt_required
     def post(self):
         user_id = get_jwt_identity()
@@ -18,4 +18,23 @@ class AllReviewResource(Resource):
         db.session.commit()
         return review_schema.dump(new_review), 201
     
-
+class UserFavoritesResource(Resource):
+    @jwt_required()
+    def get_cars():
+        try:
+            verify_jwt_in_request()
+            user_id = get_jwt_identity()
+            user_favorites = Favorite.query.filter_by(user_id=user_id).all()
+            return favorite_schema.dump(user_favorites), 200
+        except:
+            return "Unauthorized", 401
+        
+    @jwt_required
+    def post(self):
+        user_id = get_jwt_identity()
+        form_data = request.get_json()
+        new_favorite = favorite_schema.load(form_data)
+        new_favorite.user_id = user_id
+        db.session.add(new_favorite)
+        db.session.commit()
+        return review_schema.dump(new_favorite), 201
