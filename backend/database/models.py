@@ -1,5 +1,6 @@
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 
 db = SQLAlchemy()
 
@@ -51,4 +52,3 @@ class Favorite(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     user= db.relationship("User")
-

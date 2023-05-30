@@ -6,7 +6,7 @@ from database.schemas import review_schema, reviews_schema, favorite_schema, fav
 
 
 class UserReviewResource(Resource):
-    @jwt_required
+    @jwt_required()
     def post(self):
         user_id = get_jwt_identity()
         form_data = request.get_json()
@@ -17,18 +17,16 @@ class UserReviewResource(Resource):
         return review_schema.dump(new_review), 201
 
 
-class UserFavoritesResource(Resource):
-    @jwt_required
-    def get(self):
-        try:
-            verify_jwt_in_request()
-            user_id = get_jwt_identity()
-            user_favorites = Favorite.query.filter_by(user_id=user_id).all()
-            return favorites_schema.dump(user_favorites), 200
-        except:
-            return "Unauthorized", 401
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-    @jwt_required
+class UserFavoritesResource(Resource):
+    @jwt_required()
+    def get(self):
+        user_id = get_jwt_identity()
+        user_favorites = Favorite.query.filter_by(user_id=user_id).all()
+        return favorites_schema.dump(user_favorites), 200
+
+    @jwt_required()
     def post(self):
         user_id = get_jwt_identity()
         form_data = request.get_json()
@@ -39,17 +37,26 @@ class UserFavoritesResource(Resource):
         return favorite_schema.dump(new_favorite), 201
 
 
+
+
+
+
 class GetBookInformation(Resource):
     def get(self, book_id):
         reviews = Review.query.filter_by(book_id=book_id).all()
         average_rating = calculate_avg(reviews)
         is_favorited = check_user_fav(book_id)
+        
+        review_data = reviews_schema.dump(reviews)
+        
         response = {
-            "Reviews": reviews_schema.dump(reviews),
+            "Reviews": review_data,
             "Average Rating": average_rating,
             "Favorited?": is_favorited,
         }
+        
         return response
+
 
 
 def calculate_avg(reviews):

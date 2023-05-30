@@ -10,6 +10,9 @@ from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
 from dotenv import load_dotenv
 from os import environ
+from resources.books import UserReviewResource, UserFavoritesResource, GetBookInformation
+from database.models import db
+from flask_sqlalchemy import SQLAlchemy
 
 # Adds variables from .env file to environment
 load_dotenv()
@@ -30,6 +33,9 @@ def create_app():
     # Loads config properties from .env file
     app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('SQLALCHEMY_DATABASE_URI')
     app.config['JWT_SECRET_KEY'] = environ.get('JWT_SECRET_KEY')
+
+    
+
 
     # Registers all routes with API
     api = create_routes()
@@ -56,5 +62,8 @@ def create_routes():
     api.add_resource(AllCarResource, '/api/cars')
     api.add_resource(UserCarResource, '/api/user_cars')
     # TODO: Create files for your Resources in resources folder, add them here
-    
+
+    api.add_resource(UserReviewResource, "/api/reviews")
+    api.add_resource(UserFavoritesResource, "/api/favorites")
+    api.add_resource(GetBookInformation, "/api/bookinfo")
     return api
