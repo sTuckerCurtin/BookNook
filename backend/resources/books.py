@@ -44,6 +44,7 @@ class UserFavoritesResource(Resource):
 
 
 class GetBookInformation(Resource):
+    @jwt_required()
     def get(self, book_id):
         reviews = Review.query.filter_by(book_id=book_id).all()
         average_rating = calculate_avg(reviews)
