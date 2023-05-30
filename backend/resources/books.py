@@ -24,7 +24,8 @@ class UserFavoritesResource(Resource):
     def get(self):
         user_id = get_jwt_identity()
         user_favorites = Favorite.query.filter_by(user_id=user_id).all()
-        return favorites_schema.dump(user_favorites), 200
+        serialized_favorites = favorites_schema.dump(user_favorites)
+        return serialized_favorites, 200
 
     @jwt_required()
     def post(self):
@@ -34,7 +35,8 @@ class UserFavoritesResource(Resource):
         new_favorite.user_id = user_id
         db.session.add(new_favorite)
         db.session.commit()
-        return favorite_schema.dump(new_favorite), 201
+        serialized_favorite = favorite_schema.dump(new_favorite)
+        return serialized_favorite, 201
 
 
 

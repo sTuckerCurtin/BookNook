@@ -67,13 +67,32 @@ class ReviewSchema(ma.Schema):
     title = fields.String()
     thumbnail_url = fields.String()
     user_id = fields.Integer()
+    user = ma.Nested(UserSchema, many=False)
+
+    @post_load
+    def create_review(self, data, **kwargs):
+        return Review(**data)
 
 class FavoriteSchema(ma.Schema):
-    id = fields.Integer()
-    book_id = fields.String()
-    title = fields.String()
-    thumbnail_url = fields.String()
-    user_id = fields.Integer()
+    id = fields.Integer(primary_key=True)
+    book_id = fields.String(required=True)
+    title = fields.String(required=True)
+    thumbnail_url = fields.String(required=True)
+    user_id = fields.Integer(required=True)
+    user = ma.Nested(UserSchema, many=False)
+    
+    
+    @post_load
+    def create_favorite(self, data, **kwargs):
+        return Favorite(**data)
+
+    class Meta:
+        fields = ("id", "book_id", "title", "thumbnail_url", "user_id")
+        load_instance = True  
+
+favorite_schema = FavoriteSchema()
+favorites_schema = FavoriteSchema(many=True)
+
 
 
 review_schema = ReviewSchema()
