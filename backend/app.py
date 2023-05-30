@@ -10,7 +10,7 @@ from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
 from dotenv import load_dotenv
 from os import environ
-from resources.books import UserReviewResource, UserFavoritesResource, GetBookInformation
+from resources.books import UserReviewResource, UserFavoritesResource, GetBookInformation, ReviewDetailResource
 from database.models import db
 from flask_sqlalchemy import SQLAlchemy
 
@@ -66,4 +66,5 @@ def create_routes():
     api.add_resource(UserReviewResource, "/api/reviews")
     api.add_resource(UserFavoritesResource, "/api/favorites")
     api.add_resource(GetBookInformation, "/api/bookinfo/<int:book_id>")
+    api.add_resource(ReviewDetailResource, '/api/user_reviews/<int:review_id>')
     return api

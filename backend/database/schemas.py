@@ -90,6 +90,7 @@ class FavoriteSchema(ma.Schema):
         fields = ("id", "book_id", "title", "thumbnail_url", "user_id")
         load_instance = True  
 
+
 favorite_schema = FavoriteSchema()
 favorites_schema = FavoriteSchema(many=True)
 
