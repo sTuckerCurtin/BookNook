@@ -18,7 +18,6 @@ class UserReviewResource(Resource):
         return review_schema.dump(new_review), 201
 
 
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 class UserFavoritesResource(Resource):
     @jwt_required()

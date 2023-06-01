@@ -37,23 +37,16 @@ function BookDetailsPage() {
 
   const fetchReviews = async () => {
     try {
-      const config = {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      };
+      const config = {headers: {Authorization: `Bearer ${token}`}}
 
       const response = await axios.get(`http://127.0.0.1:5000/api/bookinfo/${book_id}`, config);
       const reviewData = response.data;
+      
       setReviews(reviewData.reviews);
     } catch (error) {
       console.error('Error getting reviews', error);
     }
   };
-
-  useEffect(() => {
-    fetchReviews();
-  }, [token, book_id]);
 
   if (!bookDetails) {
     return <div>Loading...</div>;
