@@ -34,12 +34,14 @@ function BookDetailsPage() {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/${book_id}/reviews`);
-      setReviews(response.data);
+      const response = await axios.get(`http://127.0.0.1:5000/api/bookinfo/${book_id}`);
+      const reviewData = response.data;
+      setReviews(reviewData.reviews);
     } catch (error) {
       console.error('Error getting reviews', error);
     }
   };
+  
 
   if (!bookDetails) {
     return <div>Loading...</div>;

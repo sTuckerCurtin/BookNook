@@ -65,6 +65,6 @@ def create_routes():
 
     api.add_resource(UserReviewResource, "/api/reviews")
     api.add_resource(UserFavoritesResource, "/api/favorites")
-    api.add_resource(GetBookInformation, "/api/bookinfo/<int:book_id>")
+    api.add_resource(GetBookInformation, "/api/bookinfo/<string:book_id>")
     api.add_resource(ReviewDetailResource, '/api/user_reviews/<int:review_id>')
     return api
