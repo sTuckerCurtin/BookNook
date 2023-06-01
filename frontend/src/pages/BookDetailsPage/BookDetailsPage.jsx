@@ -5,11 +5,14 @@ import Book from '../../components/Book/Book';
 import ReviewList from '../../components/ReviewList/ReviewList';
 import ReviewForm from '../../components/ReviewForm/ReviewForm';
 import SearchPage from '../SearchPage/SearchPage';
+import { Routes, Route } from "react-router-dom";
+import useAuth from "../../hooks/useAuth"
 
 function BookDetailsPage() {
   const { book_id } = useParams();
   const [bookDetails, setBookDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [user, token] = useAuth();
 
   useEffect(() => {
     fetchBookDetails();
@@ -34,14 +37,23 @@ function BookDetailsPage() {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/api/bookinfo/${book_id}`);
+      const config = {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      const response = await axios.get(`http://127.0.0.1:5000/api/bookinfo/${book_id}`, config);
       const reviewData = response.data;
       setReviews(reviewData.reviews);
     } catch (error) {
       console.error('Error getting reviews', error);
     }
   };
-  
+
+  useEffect(() => {
+    fetchReviews();
+  }, [token, book_id]);
 
   if (!bookDetails) {
     return <div>Loading...</div>;
@@ -51,7 +63,7 @@ function BookDetailsPage() {
     <div>
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
-      {reviews.length > 0 && <ReviewList reviews={reviews} />}
+      <ReviewList reviews={reviews} />
     </div>
   );
 }

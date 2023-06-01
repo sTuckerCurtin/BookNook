@@ -3,7 +3,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_req
 from flask_restful import Resource
 from database.models import db, Review, Favorite
 from database.schemas import review_schema, reviews_schema, favorite_schema, favorites_schema
-
+from flask_cors import CORS
+from flask import Flask
 
 class UserReviewResource(Resource):
     @jwt_required()
