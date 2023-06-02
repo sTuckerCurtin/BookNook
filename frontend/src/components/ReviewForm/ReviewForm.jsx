@@ -28,6 +28,10 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
     }
   }
 
+  function refreshPage(){
+    window.location.reload();
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -39,7 +43,7 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
           Rating:{' '}
           <input type="text" name="rating" value={formData.rating} onChange={handleInputChange} />
         </label>
-        <button>Add Review</button>
+        <button type='button' onClick={refreshPage}>Add Review</button>
       </form>
     </div>
   );
