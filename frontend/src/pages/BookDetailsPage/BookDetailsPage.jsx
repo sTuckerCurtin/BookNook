@@ -12,6 +12,7 @@ function BookDetailsPage() {
   const { book_id } = useParams();
   const [bookDetails, setBookDetails] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [newFavorite, setNewFavorite] = useState(null);
   const [user, token] = useAuth();
 
   useEffect(() => {
@@ -48,6 +49,47 @@ function BookDetailsPage() {
     }
   };
 
+  const postNewFavorite = async () => {
+    try {
+      const defaultValues = {
+        book_id: bookDetails.id,
+        title: bookDetails.volumeInfo.title,
+        thumbnail_url: bookDetails.volumeInfo.imageLinks.thumbnail
+      };
+      const response = await axios.post(
+        "http://127.0.0.1:5000/api/favorites",
+        defaultValues,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      console.log(response.data);
+      setNewFavorite(response.data);
+    } catch (error) {
+      console.error('Error posting new favorite', error);
+    }
+  };
+
+  const addNewReview = async (newReview) => {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:5000/api/reviews/${book_id}`,
+        newReview,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      console.log(response.data);
+      setReviews((prevReviews) => [...prevReviews, response.data]);
+    } catch (error) {
+      console.error('Error posting new review', error);
+    }
+  };
+
   if (!bookDetails) {
     return <div>Loading...</div>;
   }
@@ -56,9 +98,10 @@ function BookDetailsPage() {
     <div>
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
+      <button onClick={postNewFavorite}>Favorite</button>
+      <ReviewForm bookId={book_id} addNewReview={addNewReview} />
       <ReviewList reviews={reviews} />
     </div>
-  );
-}
-
+  )
+  }
 export default BookDetailsPage;

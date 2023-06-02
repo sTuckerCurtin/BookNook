@@ -5,17 +5,22 @@ from database.models import db, Review, Favorite
 from database.schemas import review_schema, reviews_schema, favorite_schema, favorites_schema
 from flask_cors import CORS
 from flask import Flask
+from marshmallow import ValidationError
+from sqlalchemy.exc import IntegrityError
 
 class UserReviewResource(Resource):
     @jwt_required()
     def post(self):
-        user_id = get_jwt_identity()
-        form_data = request.get_json()
-        new_review = review_schema.load(form_data)
-        new_review.user_id = user_id
-        db.session.add(new_review)
-        db.session.commit()
-        return review_schema.dump(new_review), 201
+        try:
+            user_id = get_jwt_identity()
+            form_data = request.get_json()
+            new_review = review_schema.load(form_data)
+            new_review.user_id = user_id
+            db.session.add(new_review)
+            db.session.commit()
+            return review_schema.dump(new_review), 201
+        except ValidationError as err:
+            return err.messages ,400
 
 
 
