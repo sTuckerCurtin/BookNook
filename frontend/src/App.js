@@ -15,7 +15,7 @@ import Footer from "./components/Footer/Footer";
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
 import BookDetailsPage from "./pages/BookDetailsPage/BookDetailsPage";
-// import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
+import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 
 function App() {
   return (
@@ -46,14 +46,14 @@ function App() {
             </PrivateRoute>
           }
         />
-{/* 
+
         <Route 
           path="/favorites"
           element={
             <PrivateRoute>
               <FavoritesPage/>
             </PrivateRoute>
-          }/> */}
+          }/>
 
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />

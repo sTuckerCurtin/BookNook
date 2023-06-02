@@ -78,7 +78,7 @@ class FavoriteSchema(ma.Schema):
     book_id = fields.String(required=True)
     title = fields.String(required=True)
     thumbnail_url = fields.String(required=True)
-    user_id = fields.Integer(required=True)
+    user_id = fields.Integer()
     user = ma.Nested(UserSchema, many=False)
     
     
@@ -90,9 +90,6 @@ class FavoriteSchema(ma.Schema):
         fields = ("id", "book_id", "title", "thumbnail_url", "user_id")
         load_instance = True  
 
-
-favorite_schema = FavoriteSchema()
-favorites_schema = FavoriteSchema(many=True)
 
 
 

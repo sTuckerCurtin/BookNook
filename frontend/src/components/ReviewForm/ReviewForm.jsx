@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useCustomForm from '../../hooks/useCustomForm';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
@@ -12,24 +12,30 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
   };
 
   const [formData, handleInputChange, handleSubmit] = useCustomForm(defaultValues, postNewReview);
-
+  const [submitted, setSubmitted] = useState(false); 
   async function postNewReview() {
     try {
-        console.log(formData)
+      console.log(formData);
       let response = await axios.post('http://127.0.0.1:5000/api/reviews', formData, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
       });
       console.log(response.data);
-      fetchBookReviews(); 
+      fetchBookReviews();
+      setSubmitted(true); 
     } catch (error) {
       console.log(error.response.data);
     }
   }
 
-  function refreshPage(){
+  function refreshPage() {
     window.location.reload();
+  }
+
+  if (submitted) {
+    
+    return <div>Form submitted successfully!</div>;
   }
 
   return (
@@ -43,7 +49,9 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
           Rating:{' '}
           <input type="text" name="rating" value={formData.rating} onChange={handleInputChange} />
         </label>
-        <button type='button' onClick={refreshPage}>Add Review</button>
+        <button type="button" onClick={postNewReview}>
+          Add Review
+        </button>
       </form>
     </div>
   );

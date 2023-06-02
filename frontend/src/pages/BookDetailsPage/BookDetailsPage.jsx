@@ -22,9 +22,12 @@ function BookDetailsPage() {
 
   const fetchBookDetails = async () => {
     try {
-      const response = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book_id}`);
+      const response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes/${book_id}`
+      );
       const bookData = response.data;
       const bookInfo = {
+        id: book_id,
         title: bookData.volumeInfo.title,
         author: bookData.volumeInfo.authors?.join(', '),
         description: bookData.volumeInfo.description,
@@ -35,6 +38,8 @@ function BookDetailsPage() {
       console.error('Error getting book details', error);
     }
   };
+  
+  
 
   const fetchReviews = async () => {
     try {
@@ -49,13 +54,14 @@ function BookDetailsPage() {
     }
   };
 
-  const postNewFavorite = async () => {
+  const postNewFavorite = async (book) => {
     try {
       const defaultValues = {
-        book_id: bookDetails.id,
-        title: bookDetails.volumeInfo.title,
-        thumbnail_url: bookDetails.volumeInfo.imageLinks.thumbnail
+        book_id: book_id,
+        title: bookDetails.title,
+        thumbnail_url: bookDetails.coverImageUrl,
       };
+  
       const response = await axios.post(
         "http://127.0.0.1:5000/api/favorites",
         defaultValues,
@@ -65,13 +71,14 @@ function BookDetailsPage() {
           },
         }
       );
+  
       console.log(response.data);
       setNewFavorite(response.data);
     } catch (error) {
       console.error('Error posting new favorite', error);
     }
   };
-
+  
   const addNewReview = async (newReview) => {
     try {
       const response = await axios.post(
@@ -99,7 +106,7 @@ function BookDetailsPage() {
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
       <button onClick={postNewFavorite}>Favorite</button>
-      <ReviewForm bookId={book_id} addNewReview={addNewReview} />
+      <ReviewForm bookId={book_id} addNewReview={addNewReview} newFavorite={newFavorite} />
       <ReviewList reviews={reviews} />
     </div>
   )
