@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import ResultsList from '../../components/ResultsList/ResultsList';
 
 function SearchPage() {
   const [searchResults, setSearchResults] = useState([]);
@@ -27,20 +28,12 @@ function SearchPage() {
   return (
     <div>
       <h1>Search Page</h1>
-      <form onSubmit={handleSearch}>
-        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-        <button type="submit">Search</button>
-      </form>
-      <ul>
-        {searchResults.map((book) => (
-          <li key={book.id}>
-            <Link to={`/book/${book.id}`}>
-              <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} />
-              <p>{book.volumeInfo.title}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <SearchBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        handleSearch={handleSearch}
+      />
+      <ResultsList searchResults={searchResults} />
     </div>
   );
 }

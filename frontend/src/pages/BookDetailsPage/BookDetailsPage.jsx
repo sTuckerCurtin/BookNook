@@ -79,7 +79,7 @@ function BookDetailsPage() {
     }
   };
   
-  const addNewReview = async (newReview) => {
+ const addNewReview = async (newReview) => {
     try {
       const response = await axios.post(
         `http://127.0.0.1:5000/api/reviews/${book_id}`,
