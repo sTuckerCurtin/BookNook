@@ -2,6 +2,7 @@ import React from 'react';
 import useCustomForm from '../../hooks/useCustomForm';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
+import "./ReviewForm.css"
 
 const ReviewForm = ({ bookId, fetchBookReviews }) => {
   const [user, token] = useAuth();
@@ -33,7 +34,7 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
 
 
   return (
-    <div>
+    <div className='reviewform'>
       <form onSubmit={handleSubmit}>
         <label>
           Review:{' '}

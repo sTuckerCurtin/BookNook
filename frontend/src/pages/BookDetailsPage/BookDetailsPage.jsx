@@ -93,7 +93,7 @@ function BookDetailsPage() {
     return <div>Loading...</div>;
   }
   return (
-    <div>
+    <div className='pagelayout'>
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
       <button
