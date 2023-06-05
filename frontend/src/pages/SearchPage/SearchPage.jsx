@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import ResultsList from '../../components/ResultsList/ResultsList';
+import "./SearchPage.css"
 
 function SearchPage() {
   const [searchResults, setSearchResults] = useState([]);
@@ -26,15 +27,19 @@ function SearchPage() {
   };
 
   return (
-    <div>
+    <section>
+      <div className='searchbox'>
       <h1>Search Page</h1>
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        handleSearch={handleSearch}
-      />
-      <ResultsList searchResults={searchResults} />
-    </div>
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          handleSearch={handleSearch}
+        />
+      </div>
+      <div>
+        <ResultsList searchResults={searchResults} />
+      </div>
+    </section>
   );
 }
 
