@@ -1,0 +1,25 @@
+.favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.favorites-list .card {
+  width: 150px;
+  background-color: #f8f9fa;
+  margin-bottom: 1rem;
+}
+
+.favorites-list .card-img-top {
+  height: auto;
+}
+
+.favorites-list .card-title {
+  font-size: 16px;
+}
+
+.title{
+  position: relative;
+  display: flex;
+  justify-content: center;
+}

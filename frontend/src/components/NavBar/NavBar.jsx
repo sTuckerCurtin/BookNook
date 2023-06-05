@@ -15,12 +15,12 @@ const Navbar = () => {
             <b>BookNook</b>
           </Link>
         </li>
-        <li>
+        <li className="searchpage">
         <Link to="/search" style={{ textDecoration: "none", color: "white" }}>
             <b>Search Page</b>
           </Link>
         </li>
-        <li >
+        <li className="favorites">
           <Link to="/favorites" style={{ textDecoration: "none", color: "white" }}>
             <b>Favorites</b>
           </Link>

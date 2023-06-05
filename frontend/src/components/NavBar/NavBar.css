@@ -33,3 +33,49 @@ li {
   cursor: pointer;
   font-size: 2rem;
 }
+
+.favorites{
+  display: flex;
+  position: relative;
+  left: 200px;
+  bottom: -10px;
+}
+
+.searchpage{
+  display: flex;
+  position: relative;
+  left: 324px;
+  bottom: -10px
+}
+
+@media screen and (max-width: 768px) {
+  .navBar {
+    padding: 1rem;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+  }
+
+  .favorites {
+    left: 0;
+  }
+
+  .searchpage {
+    left: 0;
+  }
+
+  .searchpage{
+    display: flex;
+    position: relative;
+    left: 400px;
+    bottom: -10px
+  }
+
+  .favorites{
+    display: flex;
+    position: relative;
+    left: 200px;
+    bottom: -10px;
+  }
+}
