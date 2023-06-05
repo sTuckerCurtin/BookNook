@@ -79,23 +79,7 @@ function BookDetailsPage() {
     }
   };
   
- const addNewReview = async (newReview) => {
-    try {
-      const response = await axios.post(
-        `http://127.0.0.1:5000/api/reviews/${book_id}`,
-        newReview,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      console.log(response.data);
-      setReviews((prevReviews) => [...prevReviews, response.data]);
-    } catch (error) {
-      console.error('Error posting new review', error);
-    }
-  };
+
 
   if (!bookDetails) {
     return <div>Loading...</div>;
@@ -106,7 +90,7 @@ function BookDetailsPage() {
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
       <button onClick={postNewFavorite}>Favorite</button>
-      <ReviewForm bookId={book_id} addNewReview={addNewReview} newFavorite={newFavorite} />
+      <ReviewForm bookId={book_id} fetchBookReviews={fetchReviews} newFavorite={newFavorite} />
       <ReviewList reviews={reviews} />
     </div>
   )

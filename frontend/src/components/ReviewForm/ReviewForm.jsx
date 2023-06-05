@@ -11,9 +11,10 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
     rating: '',
   };
 
-  const [formData, handleInputChange, handleSubmit] = useCustomForm(defaultValues, postNewReview);
+  const [formData, handleInputChange, handleSubmit, reset] = useCustomForm(defaultValues, postNewReview);
 
   async function postNewReview() {
+    console.log("Happen")
     try {
         console.log(formData)
       let response = await axios.post('http://127.0.0.1:5000/api/reviews', formData, {
@@ -23,15 +24,13 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
       });
       console.log(response.data);
       fetchBookReviews();
+      reset()
     } catch (error) {
       console.log(error.response.data);
     }
   }
 
-    function refreshPage(){
-      postNewReview();
-      window.location.reload();
-    }
+
 
   return (
     <div>
@@ -44,7 +43,7 @@ const ReviewForm = ({ bookId, fetchBookReviews }) => {
           Rating:{' '}
           <input type="text" name="rating" value={formData.rating} onChange={handleInputChange} />
         </label>
-        <button type='button' onClick={refreshPage}>Add Review</button>
+        <button  type='submit' >Add Review</button>
       </form>
     </div>
   );
