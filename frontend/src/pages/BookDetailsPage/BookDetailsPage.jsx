@@ -14,6 +14,7 @@ function BookDetailsPage() {
   const [reviews, setReviews] = useState([]);
   const [newFavorite, setNewFavorite] = useState(null);
   const [user, token] = useAuth();
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     fetchBookDetails();
@@ -32,6 +33,7 @@ function BookDetailsPage() {
         author: bookData.volumeInfo.authors?.join(', '),
         description: bookData.volumeInfo.description,
         coverImageUrl: bookData.volumeInfo.imageLinks?.thumbnail,
+        
       };
       setBookDetails(bookInfo);
     } catch (error) {
@@ -48,11 +50,15 @@ function BookDetailsPage() {
       const response = await axios.get(`http://127.0.0.1:5000/api/bookinfo/${book_id}`, config);
       const reviewData = response.data;
       
+      console.log(reviewData.average_rating)
+      setAverageRating(reviewData.average_rating)
       setReviews(reviewData.reviews);
     } catch (error) {
       console.error('Error getting reviews', error);
     }
   };
+
+ 
 
   const postNewFavorite = async (book) => {
     try {
@@ -90,8 +96,8 @@ function BookDetailsPage() {
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
       <button onClick={postNewFavorite}>Favorite</button>
-      <ReviewForm bookId={book_id} fetchBookReviews={fetchReviews} newFavorite={newFavorite} />
-      <ReviewList reviews={reviews} />
+      <ReviewForm bookId={book_id} fetchBookReviews={fetchReviews} newFavorite={newFavorite}  />
+      <ReviewList reviews={reviews} averageRating={averageRating}/>
     </div>
   )
   }

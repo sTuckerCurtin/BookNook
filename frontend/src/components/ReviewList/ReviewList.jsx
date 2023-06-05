@@ -1,11 +1,9 @@
 import React from "react";
 
-function ReviewList({ reviews }) {
-
-
-  
+function ReviewList({ reviews, averageRating }) {
   return (
     <div>
+      <p>Average Rating: {averageRating}</p>
       {reviews.map((review) => (
         <div key={review.user?.username}>
           <h3>User: {review.user?.username}</h3>
