@@ -7,6 +7,7 @@ import ReviewForm from '../../components/ReviewForm/ReviewForm';
 import SearchPage from '../SearchPage/SearchPage';
 import { Routes, Route } from "react-router-dom";
 import useAuth from "../../hooks/useAuth"
+import "./BookDetailsPage.css"
 
 function BookDetailsPage() {
   const { book_id } = useParams();
@@ -15,6 +16,8 @@ function BookDetailsPage() {
   const [newFavorite, setNewFavorite] = useState(null);
   const [user, token] = useAuth();
   const [averageRating, setAverageRating] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+
 
   useEffect(() => {
     fetchBookDetails();
@@ -60,7 +63,7 @@ function BookDetailsPage() {
 
  
 
-  const postNewFavorite = async (book) => {
+ const postNewFavorite = async (book) => {
     try {
       const defaultValues = {
         book_id: book_id,
@@ -80,25 +83,28 @@ function BookDetailsPage() {
   
       console.log(response.data);
       setNewFavorite(response.data);
+      setIsFavorite((prevState) => !prevState);;
     } catch (error) {
       console.error('Error posting new favorite', error);
     }
   };
-  
-
 
   if (!bookDetails) {
     return <div>Loading...</div>;
   }
-
   return (
     <div>
       <h1>Book Details Page</h1>
       <Book book={bookDetails} />
-      <button onClick={postNewFavorite}>Favorite</button>
-      <ReviewForm bookId={book_id} fetchBookReviews={fetchReviews} newFavorite={newFavorite}  />
-      <ReviewList reviews={reviews} averageRating={averageRating}/>
+      <button
+        className={`favorite-button ${isFavorite ? 'favorite-button-yellow' : 'favorite-button-black'}`}
+        onClick={postNewFavorite}
+      >
+        {isFavorite ? 'Favorited' : 'Favorite'}
+      </button>
+      <ReviewForm bookId={book_id} fetchBookReviews={fetchReviews} newFavorite={newFavorite} />
+      <ReviewList reviews={reviews} averageRating={averageRating} />
     </div>
-  )
-  }
+  );
+  }  
 export default BookDetailsPage;
