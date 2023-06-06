@@ -12,9 +12,20 @@ const Navbar = () => {
       <ul>
         <li className="brand">
           <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            <b>React/Flask JWT</b>
+            <b>BookNook</b>
           </Link>
         </li>
+        <li className="searchpage">
+        <Link to="/search" style={{ textDecoration: "none", color: "white" }}>
+            <b>Search Page</b>
+          </Link>
+        </li>
+        <li className="favorites">
+          <Link to="/favorites" style={{ textDecoration: "none", color: "white" }}>
+            <b>Favorites</b>
+          </Link>
+        </li>
+        
         <li>
           {user ? (
             <button onClick={logoutUser}>Logout</button>

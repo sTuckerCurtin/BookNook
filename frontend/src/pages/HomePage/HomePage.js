@@ -5,39 +5,58 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 
 const HomePage = () => {
-  // The "user" value from this Hook contains the decoded logged in user information (username, first name, id)
-  // The "token" value is the JWT token that you will send in the header of any request requiring authentication
-  //TODO: Add an AddCars Page to add a car for a logged in user's garage
-  const [user, token] = useAuth();
-  const [cars, setCars] = useState([]);
+  const [classics, setClassics] = useState([]);
 
   useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        let response = await axios.get("http://127.0.0.1:5000/api/user_cars", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        setCars(response.data);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    };
-    fetchCars();
-  }, [token]);
+    fetchClassics();
+  }, []);
+
+  const fetchClassics = async () => {
+    try {
+      const response = await axios.get(
+        "https://www.googleapis.com/books/v1/volumes?q=subject:classics"
+      );
+      setClassics(response.data.items);
+    } catch (error) {
+      console.error('Error getting classics', error);
+    }
+  };
+
   return (
     <div className="container">
-      {console.log(user)}
-      <h1>Home Page for {user.username}!</h1>
-      {cars &&
-        cars.map((car) => (
-          <p key={car.id}>
-            {car.year} {car.model} {car.make}
-          </p>
+      <h1>Welcome to BookNook!</h1>
+      <h3>What is Booknook?</h3>
+      <p>
+        Introducing Booknook, a revolutionary app designed to enhance your
+        reading experience. With Booknook, you have the power to embark on a
+        thrilling journey through the vast world of literature. Whether you're
+        an avid reader or simply looking for your next captivating read,
+        Booknook has you covered. The app offers a comprehensive search feature
+        that enables you to explore a vast collection of books, ensuring you
+        find the perfect match for your interests. But Booknook doesn't stop
+        there; it goes above and beyond by allowing you to track and manage your
+        favorite books. With just a few taps, you can mark books as favorites,
+        creating a personalized library tailored to your taste. Never lose track
+        of your beloved reads again. Booknook is your trusted companion,
+        ensuring you always have access to the books that inspire and captivate
+        you. Start your reading adventure today with Booknook and unlock a world
+        of literary wonders.
+      </p>
+      <h3>Classics</h3>
+      <ul>
+        {classics.map((classic) => (
+          <li key={classic.id}>
+            <img
+              src={classic.volumeInfo.imageLinks?.thumbnail}
+              alt={classic.volumeInfo.title}
+            />
+            <p>{classic.volumeInfo.title}</p>
+          </li>
         ))}
+      </ul>
     </div>
   );
+
 };
 
 export default HomePage;
